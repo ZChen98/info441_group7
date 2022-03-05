@@ -17,15 +17,14 @@ async function dbConnect() {
 
   const buildingSchema = new mongoose.Schema({
     buildingname: String,
-    buildingtype: String,
     likes: [String],
+    rating: [Number],
   });
   db.Building = mongoose.model("Building", buildingSchema);
 
   const commentSchema = new mongoose.Schema({
     username: String,
     comment: String,
-    rating: Number,
     building: { type: mongoose.Schema.Types.ObjectId, ref: "Building" },
     created_date: Date,
   });
