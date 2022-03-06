@@ -12,7 +12,7 @@ router.get("/", function (req, res, next) {
 // GET dorm info
 router.get("/dorms", async function (req, res, next) {
   try {
-    console.log(111)
+    // console.log(111)
     let allDorms = await req.db.Building.find();
     // console.log(allDorms)
     let results = [];
@@ -49,7 +49,7 @@ router.get("/dorms", async function (req, res, next) {
 
 // html component contains dorm img and dorm name
 async function viewDorm(dorm, avgDormRating) {
-  console.log(dorm)
+  // console.log(dorm)
   // let dorm = await req.db.Building.findById(dormId);
   let dormName = dorm.buildingname;
   let dormImg = "imgs/" + dormName + ".jpeg";
@@ -75,4 +75,40 @@ router.post("/likeComment", async function (req, res, next) {});
 // POST Unlike on the comment (remove like)
 router.post("/unlikeComment", async function (req, res, next) {});
 
+//display the selected dorm
+router.post("/filterDorms", async function(req, res, next) {
+    try {
+    let dormName = req.body.dormName;
+    let dorm = await req.db.Building.find({buildingname:dormName})
+    let results = [];
+    dorm.forEach((dorm) => {
+      let dormName = dorm.buildingname;
+      // let dormLikes = dorm.likes;
+      let dormId = dorm._id;
+      let dormRating = dorm.rating;
+      let average = (array) => array.reduce((a, b) => a + b) / array.length;
+      let avgDormRating = average(dormRating);
+
+      results.push(
+        viewDorm(dorm, avgDormRating).then((htmlReturn) => {
+          return {
+            dormName: dormName,
+            // likes: dormLikes,
+            htmlPreview: htmlReturn,
+            dormRating: avgDormRating,
+          };
+        })
+        .catch((err) =>{
+          console.log("Error", err);
+        })
+      );
+    });
+
+    Promise.all(results).then((result) => {
+      res.send(result);
+    });
+  } catch (error) {
+    res.send("error" + error);
+  }
+})
 export default router;

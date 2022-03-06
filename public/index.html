@@ -15,18 +15,23 @@
   </nav>
   <h1>RateMyUW</h1>
   <h2>Dorms:</h2>
-  <button onclick="loadDorm()">refresh</button>
+  <button onclick="loadDorm(filteredJson)">refresh</button>
+  <select name="dorm" id="dormselect" onchange="displaySelectedDorm()">
+    <option value="" selected disabled hidden>Choose a dorm</option>
+  </select>
+
   <div id="dorm_box"></div>
   <hr>
   <hr>
-  <div id="make_dorm_div" class="d-none">
+  <!-- <div id="make_dorm_div" class="d-none">
     <h2>Post new rating and comment:</h2>
     <p>Enter rating for the dorm</p>
     <input type="text" id="ratingInput"/>
-    <p>Enter your comment</p><input type="text" id="commentInput" />
-    <!-- <button onclick="postUrl()">Post</button> <span id="postStatus"></span> -->
-    <!-- <div id="url_previews"></div> -->
-  </div>
+    <p>Enter your comment</p>
+    <input type="text" id="commentInput" />
+    <button onclick="postUrl()">Post</button> <span id="postStatus"></span>
+    <div id="url_previews"></div>
+  </div> -->
 </body>
 
 </html>
