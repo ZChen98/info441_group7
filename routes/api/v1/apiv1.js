@@ -111,7 +111,22 @@ router.post("/likeComment", async function (req, res, next) {
 });
 
 // POST Unlike on the comment (remove like)
-router.post("/unlikeComment", async function (req, res, next) {});
+router.post("/unlikeComment", async function (req, res, next) {
+  try {
+    let commentID = req.body.commentID;
+    let userNametoAdd = "...";
+    let comment = await req.db.Comment.findById(commentID);
+
+    if (comment.likes.includes(userNametoAdd)) {
+      let index = comment.likes.indexOf(userNametoAdd)
+      comment.likes.splice(index, 1)
+    }
+    await comment.save();
+    res.json({ status: "success" });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
 
 //display the selected dorm
 router.post("/filterDorms", async function (req, res, next) {
