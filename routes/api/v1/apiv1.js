@@ -94,7 +94,21 @@ router.get("/comments", async function (req, res, next) {
 });
 
 // POST like on the comment
-router.post("/likeComment", async function (req, res, next) {});
+router.post("/likeComment", async function (req, res, next) {
+  try {
+    let commentID = req.body.commentID;
+    let userNametoAdd = "...";
+    let comment = await req.db.Comment.findById(commentID);
+
+    if (!comment.likes.includes(userNametoAdd)) {
+      comment.likes.push(userNametoAdd);
+    }
+    await comment.save();
+    res.json({ status: "success" });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
 
 // POST Unlike on the comment (remove like)
 router.post("/unlikeComment", async function (req, res, next) {});
