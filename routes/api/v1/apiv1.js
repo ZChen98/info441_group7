@@ -25,17 +25,18 @@ router.get("/dorms", async function (req, res, next) {
       let avgDormRating = average(dormRating);
 
       results.push(
-        viewDorm(dorm, avgDormRating).then((htmlReturn) => {
-          return {
-            dormName: dormName,
-            // likes: dormLikes,
-            htmlPreview: htmlReturn,
-            dormRating: avgDormRating,
-          };
-        })
-        .catch((err) =>{
-          console.log("Error", err);
-        })
+        viewDorm(dorm, avgDormRating)
+          .then((htmlReturn) => {
+            return {
+              dormName: dormName,
+              // likes: dormLikes,
+              htmlPreview: htmlReturn,
+              dormRating: avgDormRating,
+            };
+          })
+          .catch((err) => {
+            console.log("Error", err);
+          })
       );
     });
 
@@ -55,7 +56,9 @@ async function viewDorm(dorm, avgDormRating) {
   let dormImg = "imgs/" + dormName + ".jpeg";
   let htmlReturn =
     '<div style="max-width: 300px; border: solid 1px; padding: 3px; text-align: center;">';
-  htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(dormName)}">${dormName}</a></h2>`;
+  htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(
+    dormName
+  )}">${dormName}</a></h2>`;
   htmlReturn += `<p>Rating: ${avgDormRating}</p>`;
   htmlReturn += `<img src="${dormImg}" style="max-height: 200px; max-width: 270px;">`;
   htmlReturn += `</div>`;
@@ -64,10 +67,31 @@ async function viewDorm(dorm, avgDormRating) {
 }
 
 // POST comment on the building
-router.post("/comment", async function (req, res, next) {});
+router.post("/comments", async function (req, res, next) {
+  try {
+    const Comment = new req.db.Comment({
+      username: "name",
+      comment: "something",
+      building: req.body.buildingID,
+      created_date: Date.now(),
+    });
+    await Comment.save();
+    res.json({ status: "success" });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
 
 // GET comment on the building
-router.get("/comment", async function (req, res, next) {});
+router.get("/comments", async function (req, res, next) {
+  try {
+    let buildingID = req.query.buildingID;
+    let comments = await req.db.Comment.find({ building: buildingID });
+    res.json(comments);
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
 
 // POST like on the comment
 router.post("/likeComment", async function (req, res, next) {});
@@ -76,10 +100,10 @@ router.post("/likeComment", async function (req, res, next) {});
 router.post("/unlikeComment", async function (req, res, next) {});
 
 //display the selected dorm
-router.post("/filterDorms", async function(req, res, next) {
-    try {
+router.post("/filterDorms", async function (req, res, next) {
+  try {
     let dormName = req.body.dormName;
-    let dorm = await req.db.Building.find({buildingname:dormName})
+    let dorm = await req.db.Building.find({ buildingname: dormName });
     let results = [];
     dorm.forEach((dorm) => {
       let dormName = dorm.buildingname;
@@ -90,17 +114,18 @@ router.post("/filterDorms", async function(req, res, next) {
       let avgDormRating = average(dormRating);
 
       results.push(
-        viewDorm(dorm, avgDormRating).then((htmlReturn) => {
-          return {
-            dormName: dormName,
-            // likes: dormLikes,
-            htmlPreview: htmlReturn,
-            dormRating: avgDormRating,
-          };
-        })
-        .catch((err) =>{
-          console.log("Error", err);
-        })
+        viewDorm(dorm, avgDormRating)
+          .then((htmlReturn) => {
+            return {
+              dormName: dormName,
+              // likes: dormLikes,
+              htmlPreview: htmlReturn,
+              dormRating: avgDormRating,
+            };
+          })
+          .catch((err) => {
+            console.log("Error", err);
+          })
       );
     });
 
@@ -110,5 +135,5 @@ router.post("/filterDorms", async function(req, res, next) {
   } catch (error) {
     res.send("error" + error);
   }
-})
+});
 export default router;
