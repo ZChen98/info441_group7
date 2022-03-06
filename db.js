@@ -17,8 +17,8 @@ async function dbConnect() {
 
   const buildingSchema = new mongoose.Schema({
     buildingname: String,
-    likes: [String],
-    rating: [Number],
+    
+    rating: [Number]
   });
   db.Building = mongoose.model("Building", buildingSchema);
 
@@ -26,7 +26,8 @@ async function dbConnect() {
     username: String,
     comment: String,
     building: { type: mongoose.Schema.Types.ObjectId, ref: "Building" },
-    created_date: Date,
+    likes: [String],
+    created_date: Date
   });
   db.Comment = mongoose.model("Comment", commentSchema);
   console.log("created db schemas and models");

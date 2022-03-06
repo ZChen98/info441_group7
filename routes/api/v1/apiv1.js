@@ -18,7 +18,7 @@ router.get("/dorms", async function (req, res, next) {
     let results = [];
     allDorms.forEach((dorm) => {
       let dormName = dorm.buildingname;
-      let dormLikes = dorm.likes;
+      // let dormLikes = dorm.likes;
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
@@ -28,7 +28,7 @@ router.get("/dorms", async function (req, res, next) {
         viewDorm(dorm, avgDormRating).then((htmlReturn) => {
           return {
             dormName: dormName,
-            likes: dormLikes,
+            // likes: dormLikes,
             htmlPreview: htmlReturn,
             dormRating: avgDormRating,
           };
@@ -55,7 +55,7 @@ async function viewDorm(dorm, avgDormRating) {
   let dormImg = "imgs/" + dormName + ".jpeg";
   let htmlReturn =
     '<div style="max-width: 300px; border: solid 1px; padding: 3px; text-align: center;">';
-  htmlReturn += `<h2>${dormName}</h2>`;
+  htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(dormName)}">${dormName}</a></h2>`;
   htmlReturn += `<p>Rating: ${avgDormRating}</p>`;
   htmlReturn += `<img src="${dormImg}" style="max-height: 200px; max-width: 270px;">`;
   htmlReturn += `</div>`;

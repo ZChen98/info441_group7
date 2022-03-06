@@ -4,7 +4,17 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #4B2E83;
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+  color: #4B2E83;
+}
+
+h2 {
+  color: #4B2E83;
 }
 
 #dorm_box{
