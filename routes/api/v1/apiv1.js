@@ -10,9 +10,11 @@ router.get("/", function (req, res, next) {
 });
 
 // GET dorm info
-router.get("/dorms", function (req, res, next) {
+router.get("/dorms", async function (req, res, next) {
   try {
+    console.log(111)
     let allDorms = await req.db.Building.find();
+    // console.log(allDorms)
     let results = [];
     allDorms.forEach((dorm) => {
       let dormName = dorm.buildingname;
@@ -23,7 +25,7 @@ router.get("/dorms", function (req, res, next) {
       let avgDormRating = average(dormRating);
 
       results.push(
-        viewDorm(dormId).then((htmlReturn) => {
+        viewDorm(dorm, avgDormRating).then((htmlReturn) => {
           return {
             dormName: dormName,
             likes: dormLikes,
@@ -46,17 +48,18 @@ router.get("/dorms", function (req, res, next) {
 });
 
 // html component contains dorm img and dorm name
-async function viewDorm(dormId) {
-  let dorm = await req.db.Building.findById(dormId);
+async function viewDorm(dorm, avgDormRating) {
+  console.log(dorm)
+  // let dorm = await req.db.Building.findById(dormId);
   let dormName = dorm.buildingname;
-  let dormImg = "../../../public/imgs" + dormName + "jpeg";
-
+  let dormImg = "imgs/" + dormName + ".jpeg";
   let htmlReturn =
     '<div style="max-width: 300px; border: solid 1px; padding: 3px; text-align: center;">';
   htmlReturn += `<h2>${dormName}</h2>`;
+  htmlReturn += `<p>Rating: ${avgDormRating}</p>`;
   htmlReturn += `<img src="${dormImg}" style="max-height: 200px; max-width: 270px;">`;
   htmlReturn += `</div>`;
-
+  // console.log(htmlReturn)
   return htmlReturn;
 }
 
