@@ -78,7 +78,7 @@ router.post("/comments", async function (req, res, next) {
     await Comment.save();
 
     let building = await req.db.Building.findById(req.body.buildingID);
-    console.log(building)
+    console.log(building);
     building.rating.push(req.body.newRating);
     await building.save();
 
@@ -105,7 +105,7 @@ router.post("/likeComment", async function (req, res, next) {
     let commentID = req.body.commentID;
     let userNametoAdd = "...";
     let comment = await req.db.Comment.findById(commentID);
-
+    // console.log(comment.likes);
     if (!comment.likes.includes(userNametoAdd)) {
       comment.likes.push(userNametoAdd);
     }
@@ -120,15 +120,46 @@ router.post("/likeComment", async function (req, res, next) {
 router.post("/unlikeComment", async function (req, res, next) {
   try {
     let commentID = req.body.commentID;
-    let userNametoAdd = "...";
+    let userNametoRemove = "...";
     let comment = await req.db.Comment.findById(commentID);
-
-    if (comment.likes.includes(userNametoAdd)) {
-      let index = comment.likes.indexOf(userNametoAdd)
-      comment.likes.splice(index, 1)
+    if (comment.likes.includes(userNametoRemove)) {
+      comment.likes = comment.likes.filter((like) => {
+        return like != userNametoRemove;
+      });
     }
+    console.log(comment.likes);
     await comment.save();
     res.json({ status: "success" });
+  } catch (error) {
+    res.json({ error: error });
+  }
+});
+
+// DELETE comment 
+router.delete("/comments", async function (req, res, next) {
+  try {
+    // let session = req.session;
+    // if (session.isAuthenticated) {
+      // let username = session.account.username;
+      let username = "...";
+      let commentID = req.body.commentID;
+      let comment = await req.db.Comment.findById(commentID);
+      // if (username == comment.username) {
+        if (username == "...") {
+          await req.db.Comment.deleteOne({ _id: commentID });
+          res.json({ status: "success" });
+        } else {
+          res.json({
+            status: "error",
+            error: "you can only delete your own posts",
+          });
+        }
+    // } else {
+    //   res.json({
+    //     status: "error",
+    //     error: "not logged in",
+    //   });
+    // }
   } catch (error) {
     res.json({ error: error });
   }
@@ -174,11 +205,11 @@ router.post("/filterDorms", async function (req, res, next) {
 
 //GET get info related to a specific dorm: dormName, htmlPreview, a list of comments [comments]
 //
-router.get("/dormInfo", async function(req, res, next) {
+router.get("/dormInfo", async function (req, res, next) {
   try {
-    let dormname = req.query.dormname
-    let dorm = await req.db.Building.find({buildingname: dormname})
-    let comments = await req.db.Comment.find({building: dorm[0]._id})
+    let dormname = req.query.dormname;
+    let dorm = await req.db.Building.find({ buildingname: dormname });
+    let comments = await req.db.Comment.find({ building: dorm[0]._id });
     // console.log(comments)
     // console.log(dorm)
     let results = [];
@@ -198,7 +229,7 @@ router.get("/dormInfo", async function(req, res, next) {
               // likes: dormLikes,
               comments: comments,
               htmlPreview: htmlReturn,
-              dormId: dormId
+              dormId: dormId,
             };
           })
           .catch((err) => {
@@ -210,8 +241,6 @@ router.get("/dormInfo", async function(req, res, next) {
     Promise.all(results).then((result) => {
       res.send(result);
     });
-  } catch(err) {
-    
-  }
-})
+  } catch (err) {}
+});
 export default router;
