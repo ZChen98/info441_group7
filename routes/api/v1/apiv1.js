@@ -77,7 +77,8 @@ router.post("/comments", async function (req, res, next) {
     });
     await Comment.save();
 
-    let building = req.db.Building.findById(req.body.buildingID);
+    let building = await req.db.Building.findById(req.body.buildingID);
+    console.log(building)
     building.rating.push(req.body.newRating);
     await building.save();
 
@@ -170,4 +171,47 @@ router.post("/filterDorms", async function (req, res, next) {
     res.send("error" + error);
   }
 });
+
+//GET get info related to a specific dorm: dormName, htmlPreview, a list of comments [comments]
+//
+router.get("/dormInfo", async function(req, res, next) {
+  try {
+    let dormname = req.query.dormname
+    let dorm = await req.db.Building.find({buildingname: dormname})
+    let comments = await req.db.Comment.find({building: dorm[0]._id})
+    // console.log(comments)
+    // console.log(dorm)
+    let results = [];
+    dorm.forEach((dorm) => {
+      let dormName = dorm.buildingname;
+      // let dormLikes = dorm.likes;
+      let dormId = dorm._id;
+      let dormRating = dorm.rating;
+      let average = (array) => array.reduce((a, b) => a + b) / array.length;
+      let avgDormRating = average(dormRating);
+
+      results.push(
+        viewDorm(dorm, avgDormRating)
+          .then((htmlReturn) => {
+            return {
+              dormName: dormName,
+              // likes: dormLikes,
+              comments: comments,
+              htmlPreview: htmlReturn,
+              dormId: dormId
+            };
+          })
+          .catch((err) => {
+            console.log("Error", err);
+          })
+      );
+    });
+    // console.log(comments[0])
+    Promise.all(results).then((result) => {
+      res.send(result);
+    });
+  } catch(err) {
+    
+  }
+})
 export default router;
