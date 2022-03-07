@@ -71,11 +71,16 @@ router.post("/comments", async function (req, res, next) {
   try {
     const Comment = new req.db.Comment({
       username: "name",
-      comment: "something",
+      comment: req.body.newComment,
       building: req.body.buildingID,
       created_date: Date.now(),
     });
     await Comment.save();
+
+    let building = req.db.Building.findById(req.body.buildingID);
+    building.rating.push(req.body.newRating);
+    await building.save();
+
     res.json({ status: "success" });
   } catch (error) {
     res.json({ error: error });
