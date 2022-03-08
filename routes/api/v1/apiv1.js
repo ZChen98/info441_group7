@@ -62,20 +62,24 @@ async function viewDorm(dorm, avgDormRating) {
 // POST comment on the building
 router.post("/comments", async function (req, res, next) {
   try {
-    const Comment = new req.db.Comment({
-      username: "name",
-      comment: req.body.newComment,
-      building: req.body.buildingID,
-      created_date: Date.now(),
-    });
-    await Comment.save();
+    let session = req.session;
+    if (session.isAuthenticated) {
+      const Comment = new req.db.Comment({
+        username: session.account.username,
+        comment: req.body.newComment,
+        building: req.body.buildingID,
+        created_date: Date.now(),
+      });
+      await Comment.save();
 
-    let building = await req.db.Building.findById(req.body.buildingID);
-    console.log(building);
-    building.rating.push(req.body.newRating);
-    await building.save();
-
-    res.json({ status: "success" });
+      let building = await req.db.Building.findById(req.body.buildingID);
+      console.log(building);
+      building.rating.push(req.body.newRating);
+      await building.save();
+      res.json({ status: "success" });
+    } else {
+      res.send({"status": "error", "error": "not logged in"})
+    }
   } catch (error) {
     res.json({ error: error });
   }
@@ -95,15 +99,20 @@ router.get("/comments", async function (req, res, next) {
 // POST like on the comment
 router.post("/likeComment", async function (req, res, next) {
   try {
-    let commentID = req.body.commentID;
-    let userNametoAdd = "...";
-    let comment = await req.db.Comment.findById(commentID);
-    // console.log(comment.likes);
-    if (!comment.likes.includes(userNametoAdd)) {
-      comment.likes.push(userNametoAdd);
+    let session = req.session;
+    if (session.isAuthenticated) {
+      let commentID = req.body.commentID;
+      let userNametoAdd = session.account.username;
+      let comment = await req.db.Comment.findById(commentID);
+      // console.log(comment.likes);
+      if (!comment.likes.includes(userNametoAdd)) {
+        comment.likes.push(userNametoAdd);
+      }
+      await comment.save();
+      res.json({ status: "success" });
+    } else {
+      res.send({"status": "error", "error": "not logged in"})
     }
-    await comment.save();
-    res.json({ status: "success" });
   } catch (error) {
     res.json({ error: error });
   }
@@ -112,17 +121,22 @@ router.post("/likeComment", async function (req, res, next) {
 // POST Unlike on the comment (remove like)
 router.post("/unlikeComment", async function (req, res, next) {
   try {
-    let commentID = req.body.commentID;
-    let userNametoRemove = "...";
-    let comment = await req.db.Comment.findById(commentID);
-    if (comment.likes.includes(userNametoRemove)) {
-      comment.likes = comment.likes.filter((like) => {
-        return like != userNametoRemove;
-      });
+    let session = req.session;
+    if (session.isAuthenticated) {
+      let commentID = req.body.commentID;
+      let userNametoRemove = session.account.username;
+      let comment = await req.db.Comment.findById(commentID);
+      if (comment.likes.includes(userNametoRemove)) {
+        comment.likes = comment.likes.filter((like) => {
+          return like != userNametoRemove;
+        });
+      }
+      console.log(comment.likes);
+      await comment.save();
+      res.json({ status: "success" });
+    } else {
+      res.send({"status": "error", "error": "not logged in"})
     }
-    console.log(comment.likes);
-    await comment.save();
-    res.json({ status: "success" });
   } catch (error) {
     res.json({ error: error });
   }
@@ -131,14 +145,14 @@ router.post("/unlikeComment", async function (req, res, next) {
 // DELETE comment 
 router.delete("/comments", async function (req, res, next) {
   try {
-    // let session = req.session;
-    // if (session.isAuthenticated) {
-      // let username = session.account.username;
-      let username = "...";
+    let session = req.session;
+    if (session.isAuthenticated) {
+      let username = session.account.username;
+      // let username = "...";
       let commentID = req.body.commentID;
       let comment = await req.db.Comment.findById(commentID);
-      // if (username == comment.username) {
-        if (username == "...") {
+      if (username == comment.username) {
+        // if (username == "...") {
           await req.db.Comment.deleteOne({ _id: commentID });
           res.json({ status: "success" });
         } else {
@@ -147,12 +161,12 @@ router.delete("/comments", async function (req, res, next) {
             error: "you can only delete your own posts",
           });
         }
-    // } else {
-    //   res.json({
-    //     status: "error",
-    //     error: "not logged in",
-    //   });
-    // }
+    } else {
+      res.json({
+        status: "error",
+        error: "not logged in",
+      });
+    }
   } catch (error) {
     res.json({ error: error });
   }
@@ -170,7 +184,7 @@ router.post("/filterDorms", async function (req, res, next) {
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = average(dormRating);
+      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
 
       results.push(
         viewDorm(dorm, avgDormRating)
@@ -212,7 +226,7 @@ router.get("/dormInfo", async function (req, res, next) {
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = average(dormRating);
+      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
 
       results.push(
         viewDorm(dorm, avgDormRating)

@@ -2,7 +2,7 @@ let filteredJson = null;
 
 async function init(){
 
-    // await loadIdentity();
+    await loadIdentity();
     loadDorm(filteredJson);
     populateSelect();
 }

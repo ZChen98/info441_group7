@@ -1,5 +1,5 @@
 async function init() {
-  // await loadIdentity();
+  await loadIdentity();
   loadDormInfo();
 }
 // let myIdentity = "...";
@@ -46,13 +46,13 @@ async function loadDormInfo() {
             : `<button class="heart_button" onclick='likeComment("${dormInfo._id}")'>&#x2661;</button>`
         } 
                 </span>
-            <div><button onclick='deletePost("${dormInfo._id}")'
-        }">Delete</button></div>
+            <span class="delete_btn_span ${myIdentity ? "" : "d-none"}"><button onclick='deletePost("${dormInfo._id}")'
+        }">Delete</button></span>
             </div>`;
       })
       .join("\n");
     dormsHtml += `
-    <div>
+    <div class="user_action_div ${myIdentity ? "" : "d-none"}" >
         <h2>Post Your Rating and Comment</h2>
             <p>Rating: </p>
             <select id="ratingnum">
@@ -64,9 +64,11 @@ async function loadDormInfo() {
                 <option value = 5>5</option>
             </select>
     <br>
-    <p>Comment: </p>
-        <input type="text" id="commentInput"/>
-        <button onclick='postRatingComment("${dormInfoJson[0].dormId}")'>Post Rating and Comment</button>
+    <div id="comment_rating_div"> 
+        <p>Comment: </p>
+            <input type="text" id="commentInput"/>
+            <button onclick='postRatingComment("${dormInfoJson[0].dormId}")'>Post Rating and Comment</button>
+    </div>
     </div>`;
     document.getElementById("comments_box").innerHTML = dormsHtml;
   }
@@ -76,18 +78,19 @@ async function loadDormInfo() {
 // </button>;
 //  class="${
 //           dormInfo.username == myIdentity ? "" : "d-none"
-const escapeHTML = (str) =>
-  str.replace(
-    /[&<>'"]/g,
-    (tag) =>
-      ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;",
-      }[tag])
-  );
+
+// const escapeHTML = (str) =>
+//   str.replace(
+//     /[&<>'"]/g,
+//     (tag) =>
+//       ({
+//         "&": "&amp;",
+//         "<": "&lt;",
+//         ">": "&gt;",
+//         "'": "&#39;",
+//         '"': "&quot;",
+//       }[tag])
+//   );
 
 function getCommentHTML(commentJSON) {
   return commentJSON
@@ -142,8 +145,8 @@ async function postRatingComment(buildingID) {
   console.log(buildingID);
   let newComment = document.getElementById(`commentInput`).value;
   let newRating = parseInt(document.getElementById(`ratingnum`).value);
-  console.log(newComment);
-  console.log(typeof newRating);
+//   console.log(newComment);
+//   console.log(typeof newRating);
 
   try {
     let response = await fetch(`api/v1/comments`, {
