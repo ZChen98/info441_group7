@@ -1,7 +1,4 @@
 import express from "express";
-import fs from "fs";
-import fetch from "node-fetch";
-import parser from "node-html-parser";
 var router = express.Router();
 
 /* GET users listing. */
@@ -237,6 +234,25 @@ router.get("/dormInfo", async function (req, res, next) {
     Promise.all(results).then((result) => {
       res.send(result);
     });
-  } catch (err) {}
+  } catch (err) {
+    res.send("error" + error);
+  }
+});
+
+router.get("/getIdentity", function (req, res, next) {
+  let session = req.session;
+  if (session.isAuthenticated) {
+    let response_data = {
+      status: "loggedin",
+      userInfo: {
+        name: session.account.name,
+        username: session.account.username,
+      },
+    };
+    console.log(response_data);
+    res.send(response_data);
+  } else {
+    res.send({ status: "loggedout" });
+  }
 });
 export default router;

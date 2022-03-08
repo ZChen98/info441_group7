@@ -5,21 +5,20 @@ import logger from 'morgan';
 import sessions from "express-session";
 import msIdExpress from "microsoft-identity-express";
 
-// const appSettings = {
-//   // TODO: add app settings
-//   appCredentials: {
-//     clientId: "",
-//     tenantId: "",
-//     clientSecret: "",
-//   },
+const appSettings = {
+  appCredentials: {
+    clientId: "51052a42-da27-4fa8-84a6-06a59df266dc",
+    tenantId: "f6b6dd5b-f02f-441a-99a0-162ac5060bd2",
+    clientSecret: "4SQ7Q~eUHrU1Aq70t4Ezv7yEHYNGb.LOxKI26",
+  },
 
-//   authRoutes: {
-//     // redirect: "https://www.jcyyds.me/redirect",
-//     redirect: "http://localhost:3000/redirect", // for local test
-//     error: "/error", // the wrapper will redirect to this route in case of any error.
-//     unauthorized: "/unauthorized", // the wrapper will redirect to this route in case of unauthorized access attempt.
-//   },
-// };
+  authRoutes: {
+    // redirect: "https://project.jcyyds.me/redirect",
+    redirect: "http://localhost:3000/redirect", // for local test
+    error: "/error", // the wrapper will redirect to this route in case of any error.
+    unauthorized: "/unauthorized", // the wrapper will redirect to this route in case of unauthorized access attempt.
+  },
+};
 import db from "./db.js";
 import indexRouter from './routes/index.js';
 import apiv1Router from "./routes/api/v1/apiv1.js";
@@ -51,20 +50,20 @@ app.use(
     resave: false,
   })
 );
-// const msid = new msIdExpress.WebAppAuthClientBuilder(appSettings).build();
-// app.use(msid.initialize());
+const msid = new msIdExpress.WebAppAuthClientBuilder(appSettings).build();
+app.use(msid.initialize());
 
 app.use('/', indexRouter);
 app.use("/api/v1", apiv1Router);
 
-// app.get("/signin", msid.signIn({ postLoginRedirect: "/" }));
+app.get("/signin", msid.signIn({ postLoginRedirect: "/" }));
 
-// app.get("/signout", msid.signOut({ postLogoutRedirect: "/" }));
+app.get("/signout", msid.signOut({ postLogoutRedirect: "/" }));
 
-// app.get("/error", (req, res) => res.status(500).send("Server Error"));
+app.get("/error", (req, res) => res.status(500).send("Server Error"));
 
-// app.get("/unauthorized", (req, res) =>
-//   res.status(401).send("Permission Denied")
-// );
+app.get("/unauthorized", (req, res) =>
+  res.status(401).send("Permission Denied")
+);
 
 export default app;

@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="shortcut icon" href="imgs/uwlogo.png">
   <script src="javascripts/index.js"></script>
+  <script src="javascripts/identity.js"></script>
 </head>
 
 <body onload="init()">
@@ -13,7 +14,7 @@
     <div></div>
     <div id="identity_div">loading...</div>
   </nav>
-  <h1>RateMyUW</h1>
+  <h1>RateMyUWDorm</h1>
   <h2>Here are the dorms at UW <button onclick="loadDorm(filteredJson)">refresh</button> </h2>
   
 
@@ -24,16 +25,6 @@
   </div>
 
   <div id="dorm_box"></div>
-  
-  <!-- <div id="make_dorm_div" class="d-none">
-    <h2>Post new rating and comment:</h2>
-    <p>Enter rating for the dorm</p>
-    <input type="text" id="ratingInput"/>
-    <p>Enter your comment</p>
-    <input type="text" id="commentInput" />
-    <button onclick="postUrl()">Post</button> <span id="postStatus"></span>
-    <div id="url_previews"></div>
-  </div> -->
 </body>
 
 </html>

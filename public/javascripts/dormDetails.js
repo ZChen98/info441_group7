@@ -2,7 +2,7 @@ async function init() {
   // await loadIdentity();
   loadDormInfo();
 }
-let myIdentity = "...";
+// let myIdentity = "...";
 
 async function loadDormInfo() {
   const urlParams = new URLSearchParams(window.location.search);
