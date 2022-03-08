@@ -16,9 +16,12 @@
   <h1>RateMyUW</h1>
   <h2>Dorms:</h2>
   <button onclick="loadDorm(filteredJson)">refresh</button>
+
+  <div class="select-dropdown">
   <select name="dorm" id="dormselect" onchange="displaySelectedDorm()">
     <option value="" selected disabled hidden>Choose a dorm</option>
   </select>
+  </div>
 
   <div id="dorm_box"></div>
   <hr>
