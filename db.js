@@ -17,7 +17,6 @@ async function dbConnect() {
 
   const buildingSchema = new mongoose.Schema({
     buildingname: String,
-    
     rating: [Number]
   });
   db.Building = mongoose.model("Building", buildingSchema);

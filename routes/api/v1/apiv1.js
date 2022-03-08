@@ -12,24 +12,20 @@ router.get("/", function (req, res, next) {
 // GET dorm info
 router.get("/dorms", async function (req, res, next) {
   try {
-    // console.log(111)
     let allDorms = await req.db.Building.find();
-    // console.log(allDorms)
     let results = [];
     allDorms.forEach((dorm) => {
       let dormName = dorm.buildingname;
-      // let dormLikes = dorm.likes;
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = average(dormRating);
+      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
 
       results.push(
         viewDorm(dorm, avgDormRating)
           .then((htmlReturn) => {
             return {
               dormName: dormName,
-              // likes: dormLikes,
               htmlPreview: htmlReturn,
               dormRating: avgDormRating,
             };
