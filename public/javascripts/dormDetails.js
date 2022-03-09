@@ -2,7 +2,6 @@ async function init() {
   await loadIdentity();
   loadDormInfo();
 }
-// let myIdentity = "...";
 
 async function loadDormInfo() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -78,19 +77,6 @@ async function loadDormInfo() {
 // </button>;
 //  class="${
 //           dormInfo.username == myIdentity ? "" : "d-none"
-
-// const escapeHTML = (str) =>
-//   str.replace(
-//     /[&<>'"]/g,
-//     (tag) =>
-//       ({
-//         "&": "&amp;",
-//         "<": "&lt;",
-//         ">": "&gt;",
-//         "'": "&#39;",
-//         '"': "&quot;",
-//       }[tag])
-//   );
 
 function getCommentHTML(commentJSON) {
   return commentJSON

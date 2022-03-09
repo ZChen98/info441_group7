@@ -1,26 +1,26 @@
-
 .select-dropdown {
   position: absolute;
   background-color: #363636;
   border-radius: 4px;
-  }
-  .select-dropdown select {
+}
+.select-dropdown select {
   font-size: 1rem;
   color: #ffffff;
   font-weight: bold;
   max-width: 100%;
   padding: 8px 24px 8px 10px;
   border: none;
-  background-color: transparent;
+  background-color: #363636;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  }
-  .select-dropdown select:active, .select-dropdown select:focus {
+}
+.select-dropdown select:active,
+.select-dropdown select:focus {
   outline: none;
   box-shadow: none;
-  }
-  .select-dropdown:after {
+}
+.select-dropdown:after {
   content: "";
   position: absolute;
   top: 50%;
@@ -31,7 +31,7 @@
   border-top: 5px solid rgb(255, 255, 255);
   border-right: 5px solid transparent;
   border-left: 5px solid transparent;
-  }
+}
 
 body {
   padding: 50px;
@@ -79,30 +79,30 @@ h2 {
   font-size: 22;
 }
 
-#dorm_box{
+#dorm_box {
   display: flex;
   flex-wrap: wrap;
 }
 
-.dorm{
-  width:300px;
-  margin:5px;
+.dorm {
+  width: 300px;
+  margin: 5px;
   border: solid 1px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.heart_button{
-  color:red;
+.heart_button {
+  color: red;
 }
 
-.comments-box{
+.comments-box {
   border: 1px black solid;
   margin: 10px;
 }
 
-.individual-comment-box{
+.individual-comment-box {
   border: 1px black solid;
   margin: 3px;
 }
