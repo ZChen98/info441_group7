@@ -22,53 +22,142 @@ async function loadDormInfo() {
     document.getElementById("comments_box").innerText =
       "There was an error: " + dormInfoJson.error;
   } else {
-    let dormsHtml = `${dormInfoJson[0].htmlPreview}`;
+    let dormsHtml = `
+    <section  class="news">
+      <div class="container">
+        <div class="news-details">
+          <div class="section-header text-center">
+            <h2>Dorm Details</h2>
+            <br>
+            
+          </div>
+    `
+    dormsHtml += `${dormInfoJson[0].htmlPreview}
+          <br>
+          <div class="section-header text-center">  
+            <h2>
+							All comments
+            </h2>
+          </div>
+          <br>
+          `
+          
 
     dormsHtml += dormInfoJson[0].comments
       .map((dormInfo) => {
-        return `
-                <div id="comments-${dormInfoJson[0].dormId}">
-                ${dormInfo.comment}
-                    <span title="${dormInfo.likes}"> ${
-          dormInfo.likes ? `${dormInfo.likes.length}` : 0
-        } likes </span> &nbsp; &nbsp;
+        return `    
+            <div class="comments-area">
+              <ol class="comment-list">
+                <li  class="comment">
+                  <div  class="comment-body xtra-comment-body">
+                    <div class="comment-content">
+                      <b class="fn">
+                        <a href="#">${dormInfo.username}
+                          <span>${dormInfo.created_date}</span>
+                        </a>
+                      </b>
+                      <div class="reply">
+                        <span class="heart-button-span ${myIdentity ? "" : "d-none"}">${
+                          dormInfo.likes && dormInfo.likes.includes(myIdentity)
+                            ? `<button class="heart_button" onclick='unlikeComment("${dormInfo._id}")'>&#x2665;</button>`
+                            : `<button class="heart_button" onclick='likeComment("${dormInfo._id}")'>&#x2661;</button>`
+                        }
+                        </span>
+                        <span class="delete_btn_span ${myIdentity ? "" : "d-none"}"><button onclick='deletePost("${dormInfo._id}")'
+                        }">Delete</button></span>
+                        <span title="${dormInfo.likes}"> ${
+                          dormInfo.likes ? `${dormInfo.likes.length}` : 0} likes 
+                        </span> &nbsp; &nbsp;
+                      </div>
+                      <p>
+                      <div id="comments-${dormInfoJson[0].dormId}">${dormInfo.comment}</div>    
+                      </p>
+                    </div> 
+                  </div> 
+                </li>
+              </ol>
             </div>
-          <br>
-            <div>
-                <span>${dormInfo.username}</span>
-                <span>${dormInfo.created_date}</span>
-            </div> 
-            <div>
-                <span class="heart-button-span ${myIdentity ? "" : "d-none"}">${
-          dormInfo.likes && dormInfo.likes.includes(myIdentity)
-            ? `<button class="heart_button" onclick='unlikeComment("${dormInfo._id}")'>&#x2665;</button>`
-            : `<button class="heart_button" onclick='likeComment("${dormInfo._id}")'>&#x2661;</button>`
-        } 
-                </span>
-            <span class="delete_btn_span ${myIdentity ? "" : "d-none"}"><button onclick='deletePost("${dormInfo._id}")'
-        }">Delete</button></span>
-            </div>`;
+
+                
+                `;
       })
       .join("\n");
     dormsHtml += `
-    <div class="user_action_div ${myIdentity ? "" : "d-none"}" >
-        <h2>Post Your Rating and Comment</h2>
-            <p>Rating: </p>
-            <select id="ratingnum">
-                <option value = 0>0</option>
-                <option value = 1>1</option>
-                <option value = 2>2</option>
-                <option value = 3>3</option>
-                <option value = 4>4</option>
-                <option value = 5>5</option>
-            </select>
-    <br>
-    <div id="comment_rating_div"> 
-        <p>Comment: </p>
-            <input type="text" id="commentInput"/>
-            <button onclick='postRatingComment("${dormInfoJson[0].dormId}")'>Post Rating and Comment</button>
-    </div>
-    </div>`;
+    <div class="contact-form blog-single-form ${myIdentity ? "" : "d-none"}" >
+        <h3>Post Your Rating and Comment</h3>
+        <form>
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <h3>Rating: </h3>
+                <select id="ratingnum">
+                    <option value = 0>0</option>
+                    <option value = 1>1</option>
+                    <option value = 2>2</option>
+                    <option value = 3>3</option>
+                    <option value = 4>4</option>
+                    <option value = 5>5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <div id="comment_rating_div"> 
+                  <h3>Comment: </h3>
+                    <textarea class="form-control" id="commentInput" rows="7" placeholder="Message" ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="single-contact-btn">
+                <button onclick='postRatingComment("${dormInfoJson[0].dormId}")' class="contact-btn" href="#" role="button">Post Rating and Comment</button>
+              </div>
+            </div>
+          </div>    
+        </form>
+      </div>
+      </div>
+      </div>
+      </section>
+
+      <footer class="footer-copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-7">
+						<div class="foot-copyright pull-left">
+							<p>
+								&copy; This website uses templates from
+							 	<a href="https://www.themesine.com">ThemeSINE</a>
+							</p>
+						</div><!--/.foot-copyright-->
+					</div><!--/.col-->
+					<div class="col-sm-5">
+						<div class="foot-menu pull-right">	  
+							<p>Info 441 team 7: </p>
+							<ul>
+								<li ></a></li>
+								<li >Justin Chen</li>
+								<li >Doris Yang</li>
+								<li >Lee Shi</li>
+								<li>Zhengyang Wang</li>
+							</ul>
+						</div><!-- /.foot-menu-->
+					</div><!--/.col-->
+				</div><!--/.row-->
+				<div id="scroll-Top">
+					<i class="fa fa-angle-double-up return-to-top" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+				</div><!--/.scroll-Top-->
+			</div><!-- /.container-->
+
+		</footer><!-- /.footer-copyright-->
+		<!-- footer-copyright end -->
+      
+      `; 
+    
     document.getElementById("comments_box").innerHTML = dormsHtml;
   }
 }

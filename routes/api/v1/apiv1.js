@@ -254,7 +254,7 @@ router.get("/dormInfo", async function (req, res, next) {
       res.send(result);
     });
   } catch (err) {
-    res.send("error" + error);
+    res.send("error" + err);
   }
 });
 
