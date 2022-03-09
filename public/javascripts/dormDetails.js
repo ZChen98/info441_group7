@@ -27,7 +27,7 @@ async function loadDormInfo() {
       <div class="container">
         <div class="news-details">
           <div class="section-header text-center">
-            <h2>Dorm Details</h2>
+            <h2>About this Dorm</h2>
             <br>
             
           </div>
