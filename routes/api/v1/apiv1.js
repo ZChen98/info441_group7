@@ -64,6 +64,19 @@ async function viewDorm(dorm, avgDormRating) {
   
 }
 
+function easyViewDorm(dorm, avgDormRating) {
+    let dormName = dorm.buildingname;
+    let dormImg = "buildingImgs/" + dormName + ".jpeg";
+    let htmlReturn =
+      `<div class="single-team-box single-team-card" style="background-image: url('${dormImg}');">
+        <div class="team-box-inner">
+          <a href="/dormDetails.html?dorm=${encodeURIComponent(dormName)}"><h3> ${dormName}</h3></a>
+            <p class= "team-meta">Rating: ${avgDormRating}</p>
+        </div>
+      </div>`
+    return htmlReturn;
+}
+
 // POST comment on the building
 router.post("/comments", async function (req, res, next) {
   try {
@@ -178,40 +191,23 @@ router.delete("/comments", async function (req, res, next) {
 });
 
 //display the selected dorm
-router.post("/filterDorms", async function (req, res, next) {
+router.get("/filterDorms", async function (req, res, next) {
   try {
-    let dormName = req.body.dormName;
-    let dorm = await req.db.Building.find({ buildingname: dormName });
-    let results = [];
-    dorm.forEach((dorm) => {
-      let dormName = dorm.buildingname;
-      // let dormLikes = dorm.likes;
-      let dormId = dorm._id;
+    let dormName = req.query.dormName;
+    let dorm = await req.db.Building.findOne({ buildingname: dormName });
+    let statusInfo = {"status": "empty"}
+    if(dorm !== null){
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
       let avgDormRating = Math.round(average(dormRating) * 100) / 100;
-
-      results.push(
-        viewDorm(dorm, avgDormRating)
-          .then((htmlReturn) => {
-            return {
-              dormName: dormName,
-              // likes: dormLikes,
-              htmlPreview: htmlReturn,
-              dormRating: avgDormRating,
-            };
-          })
-          .catch((err) => {
-            console.log("Error", err);
-          })
-      );
-    });
-
-    Promise.all(results).then((result) => {
-      res.send(result);
-    });
+      let dormHtml = easyViewDorm(dorm, avgDormRating)
+      console.log(dormHtml)
+      statusInfo.status = "success"
+      statusInfo.htmlPreview = dormHtml
+    }
+    res.json(statusInfo)
   } catch (error) {
-    res.send("error" + error);
+    res.json({"status": "error", "error": error});
   }
 });
 

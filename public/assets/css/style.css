@@ -299,38 +299,44 @@ html,body{
 }/* navbar-toggle*/
 
 /* .search */
-.sticky .search span {
-	top:16px;
+
+.search-bar{
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
-.sticky .search input {
-	top:40px;
+.input {
+    padding: 10px;
+    height: 40px;
+    background: none;
+    border: 4px solid #b7a57a;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-size: 26px;
+    color: #b7a57a;
+    outline: none;
+    transition: .5s;
+	width: 350px;
+    border-radius: 10px;
 }
 
+#search-button{
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translate(-50%,-50%);
+    transition: .2s;
+	background-color: #7370d8;
+	border: none;
+	padding: 5px 5px;
+}
 
-.search span {
-    position: absolute;
-    right: -17px;
-    top:35px;
-    cursor: pointer;
-    z-index: 1;
-    color: #fff;
+i{
+	color: #b7a57a;
 }
-.search input {
-    position: absolute;
-    top:60px;
-    right: -17px;
-    width: 15px;
-    height: 20px;
-    border-radius: 4px;
-    font-size: 14px;
-    padding:20px;
-    border: 1px solid #ccc;
-    z-index: 1;
-    opacity:0;
-}
-.search input.active{
-	border-radius: 0 4px;
-}/* .search */
+
+/* .search */
 
 /*-------------------------------------
 		4. Slider
@@ -753,9 +759,7 @@ a:focus.service-btn{
 .project{
 	padding: 117px 0 109px;
 }
-.project-details{
-	
-}
+
 .project-content {
     margin-top:62px;
 }
@@ -2046,7 +2050,7 @@ a:active.learn-btn{
 	color:#908edf;
 	border:1px solid #908edf;
 }
-/*-blog button-*/\
+/*-blog button-*/
 
 /*pagination*/
 .pagination-part {
