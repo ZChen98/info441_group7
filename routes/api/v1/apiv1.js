@@ -47,7 +47,7 @@ async function viewDorm(dorm, avgDormRating) {
   // let dorm = await req.db.Building.findById(dormId);
   try{
     let dormName = dorm.buildingname;
-    let dormImg = "imgs/" + dormName + ".jpeg";
+    let dormImg = "buildingImgs/" + dormName + ".jpeg";
     let htmlReturn =
       `
         <div class="single-team-box single-team-card" style="background-image: url('${dormImg}');">
@@ -260,7 +260,7 @@ router.get("/dormInfo", async function (req, res, next) {
 
 async function viewDormDetail(dorm, avgDormRating) {
   let dormName = dorm.buildingname;
-  let dormImg = "imgs/" + dormName + ".jpeg";
+  let dormImg = "buildingImgs/" + dormName + ".jpeg";
   let htmlReturn =
     '<div style="border: solid 1px; padding: 3px; text-align: center;">';
   htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(
