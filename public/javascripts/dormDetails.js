@@ -85,7 +85,6 @@ async function loadDormInfo() {
     dormsHtml += `
     <div class="contact-form blog-single-form ${myIdentity ? "" : "d-none"}" >
         <h3>Post Your Rating and Comment</h3>
-        <form>
           <div class="row">
             <div class="col-sm-6 col-xs-12">
               <div class="form-group">
@@ -118,7 +117,6 @@ async function loadDormInfo() {
               </div>
             </div>
           </div>    
-        </form>
       </div>
       </div>
       </div>
