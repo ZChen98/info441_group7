@@ -93,13 +93,9 @@
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 							<ul class="nav navbar-nav navbar-right">
 								<li id="identity_div">loading...</li>
-								<li class="search">
-									<form action="">
-										<input type="textam" ne="search" placeholder="Search....">
-										<a href="#">
-											<span class="lnr lnr-magnifier"></span>
-										</a>
-									</form>
+								<li class="search-bar">
+										<input id='search-input' type="text" class="input" name="txt">
+									<button id="search-button" onclick="searchDorm()"><i class="lnr lnr-magnifier"></i></button>
 								</li>
 							</ul><!-- / ul -->
 						</div><!-- /.navbar-collapse -->
@@ -143,12 +139,12 @@
 						<p>
 							Seattle, WA 
 						</p>
-						<button onclick="loadDorm(filteredJson)">refresh</button>
-						<div class="select-dropdown">
+						<button onclick="loadAllDorm()">refresh</button>
+						<!-- <div class="select-dropdown">
 							<select name="dorm" id="dormselect" onchange="displaySelectedDorm()">
 							  <option value="" selected disabled hidden>Choose a dorm</option>
 							</select>
-						</div>
+						</div> -->
 					</div><!--/.project-header-->
 					<div class="team-card" id="dorm_box">
 						<div class="container">
