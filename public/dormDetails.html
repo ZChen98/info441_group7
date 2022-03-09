@@ -3,8 +3,8 @@
 <head>
   <title>Dorm Details</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="/stylesheets/style.css">
-  <link rel="shortcut icon" href="imgs/uwlogo.png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="shortcut icon" href="assets/images/logo/uwlogo.png">
   <script src="javascripts/dormDetails.js"></script>
   <script src="javascripts/identity.js"></script>
 </head>
@@ -32,7 +32,27 @@
   <!-- <button onclick="loadUserInfo()">refresh</button> -->
   <div id="comments_box"></div>
 
-  <p>You need to log in to post a comment or rating!</p>
+  <section  class="new-project" id="banner">
+    <div class="container">
+      <div class="new-project-details">
+        <div class="row">
+          <div class="col-md-10 col-sm-8">
+            <div class="single-new-project">
+              <h3>
+                Want to post a comment or rating yourself? Please Log in!
+              </h3>
+            </div><!-- /.single-new-project-->	
+          </div><!-- /.col-->	
+          <div class="col-md-2 col-sm-4">
+            <div class="single-new-project">
+              <a href="signin" class="slide-btn">
+                Log in
+              </a>
+            </div><!-- /.single-new-project-->	
+          </div><!-- /.col-->	
+        </div><!-- /.row-->	
+      </div><!-- /.new-project-details-->	
+    </div><!-- /.container-->
 </body>
 
 </html>
