@@ -39,8 +39,8 @@ async function loadDorm(filteredJson) {
         // console.log(dormHtml)
         document.getElementById("dorm_box").innerHTML = dormHtml;
         //reset select
-        // let select = document.getElementById("dormselect");
-        // select.selectedIndex = 0;
+        let select = document.getElementById("dormselect");
+        select.selectedIndex = 0;
     }
 }
 

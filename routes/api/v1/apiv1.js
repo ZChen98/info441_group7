@@ -16,7 +16,7 @@ router.get("/dorms", async function (req, res, next) {
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
+      let avgDormRating = Math.round(average(dormRating) * 100) / 100;
 
       results.push(
         viewDorm(dorm, avgDormRating)
@@ -83,7 +83,7 @@ router.post("/comments", async function (req, res, next) {
       await building.save();
       res.json({ status: "success" });
     } else {
-      res.send({"status": "error", "error": "not logged in"})
+      res.send({ status: "error", error: "not logged in" });
     }
   } catch (error) {
     res.json({ error: error });
@@ -116,7 +116,7 @@ router.post("/likeComment", async function (req, res, next) {
       await comment.save();
       res.json({ status: "success" });
     } else {
-      res.send({"status": "error", "error": "not logged in"})
+      res.send({ status: "error", error: "not logged in" });
     }
   } catch (error) {
     res.json({ error: error });
@@ -140,14 +140,14 @@ router.post("/unlikeComment", async function (req, res, next) {
       await comment.save();
       res.json({ status: "success" });
     } else {
-      res.send({"status": "error", "error": "not logged in"})
+      res.send({ status: "error", error: "not logged in" });
     }
   } catch (error) {
     res.json({ error: error });
   }
 });
 
-// DELETE comment 
+// DELETE comment
 router.delete("/comments", async function (req, res, next) {
   try {
     let session = req.session;
@@ -158,14 +158,14 @@ router.delete("/comments", async function (req, res, next) {
       let comment = await req.db.Comment.findById(commentID);
       if (username == comment.username) {
         // if (username == "...") {
-          await req.db.Comment.deleteOne({ _id: commentID });
-          res.json({ status: "success" });
-        } else {
-          res.json({
-            status: "error",
-            error: "you can only delete your own posts",
-          });
-        }
+        await req.db.Comment.deleteOne({ _id: commentID });
+        res.json({ status: "success" });
+      } else {
+        res.json({
+          status: "error",
+          error: "you can only delete your own posts",
+        });
+      }
     } else {
       res.json({
         status: "error",
@@ -189,7 +189,7 @@ router.post("/filterDorms", async function (req, res, next) {
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
+      let avgDormRating = Math.round(average(dormRating) * 100) / 100;
 
       results.push(
         viewDorm(dorm, avgDormRating)
@@ -231,10 +231,10 @@ router.get("/dormInfo", async function (req, res, next) {
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
-      let avgDormRating = Math.round((average(dormRating) * 100)) / 100;
+      let avgDormRating = Math.round(average(dormRating) * 100) / 100;
 
       results.push(
-        viewDorm(dorm, avgDormRating)
+        viewDormDetail(dorm, avgDormRating)
           .then((htmlReturn) => {
             return {
               dormName: dormName,
@@ -257,6 +257,20 @@ router.get("/dormInfo", async function (req, res, next) {
     res.send("error" + error);
   }
 });
+
+async function viewDormDetail(dorm, avgDormRating) {
+  let dormName = dorm.buildingname;
+  let dormImg = "imgs/" + dormName + ".jpeg";
+  let htmlReturn =
+    '<div style="border: solid 1px; padding: 3px; text-align: center;">';
+  htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(
+    dormName
+  )}">${dormName}</a></h2>`;
+  htmlReturn += `<p>Rating: ${avgDormRating}</p>`;
+  htmlReturn += `<img src="${dormImg}" style="max-width: 270px; margin-left: auto; margin-right: auto;">`;
+  htmlReturn += `</div>`;
+  return htmlReturn;
+}
 
 router.get("/getIdentity", function (req, res, next) {
   let session = req.session;
