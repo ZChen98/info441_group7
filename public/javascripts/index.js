@@ -30,9 +30,11 @@ async function loadDorm(filteredJson) {
     }else{
         let dormHtml = dormJson.map(dormInfo => {
             return `
-            <div class="dorm">
+            <div class="col-sm-3 col-xs-12">
                 ${dormInfo.htmlPreview}
             </div>`
+
+            
         }).join("\n");
         // console.log(dormHtml)
         document.getElementById("dorm_box").innerHTML = dormHtml;

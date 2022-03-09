@@ -45,18 +45,23 @@ router.get("/dorms", async function (req, res, next) {
 async function viewDorm(dorm, avgDormRating) {
   // console.log(dorm)
   // let dorm = await req.db.Building.findById(dormId);
-  let dormName = dorm.buildingname;
-  let dormImg = "imgs/" + dormName + ".jpeg";
-  let htmlReturn =
-    '<div style="max-width: 300px; border: solid 1px; padding: 3px; text-align: center;">';
-  htmlReturn += `<h2><div><a href="/dormDetails.html?dorm=${encodeURIComponent(
-    dormName
-  )}">${dormName}</a></h2>`;
-  htmlReturn += `<p>Rating: ${avgDormRating}</p>`;
-  htmlReturn += `<img src="${dormImg}" style="max-height: 200px; max-width: 270px;">`;
-  htmlReturn += `</div>`;
-  // console.log(htmlReturn)
-  return htmlReturn;
+  try{
+    let dormName = dorm.buildingname;
+    let dormImg = "imgs/" + dormName + ".jpeg";
+    let htmlReturn =
+      `
+        <div class="single-team-box single-team-card" style="background-image: url('${dormImg}');">
+          <div class="team-box-inner">
+            <a href="/dormDetails.html?dorm=${encodeURIComponent(dormName)}"><h3> ${dormName}</h3></a>
+              <p class= "team-meta">Rating: ${avgDormRating}</p>
+          </div>
+        </div>`
+    // console.log(htmlReturn)
+    return htmlReturn;
+  }catch(error){
+    console.log(error)
+  }
+  
 }
 
 // POST comment on the building

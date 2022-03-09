@@ -29,7 +29,7 @@ async function loadIdentity() {
   if (identityInfo.status == "error") {
     myIdentity = undefined;
     identity_div.innerHTML = `<div>
-        <button onclick="loadIdentity()">retry</button>
+        <button class="slide-btn" onclick="loadIdentity()">retry</button>
         Error loading identity: <span id="identity_error_span"></span>
         </div>`;
     document.getElementById("identity_error_span").innerText =
@@ -49,8 +49,10 @@ async function loadIdentity() {
   } else if (identityInfo.status == "loggedin") {
     myIdentity = identityInfo.userInfo.username;
     identity_div.innerHTML = `
-        <p> ${identityInfo.userInfo.username} </p>
+        <p style="color: white"> ${identityInfo.userInfo.username} </p>
         <a href="signout" class="btn btn-danger" role="button">Log out</a>`;
+
+    document.getElementById("banner").style.display = 'none';
     // if (document.getElementById("comment_rating_div")) {
     //   document.getElementById("comment_rating_div").classList.remove("d-none");
     // }
@@ -68,10 +70,12 @@ async function loadIdentity() {
     myIdentity = undefined;
     let heart_btn = document.getElementsByClassName("heart-button-span");
     let delete_btn = document.getElementsByClassName("delete_btn_span");
-    console.log(heart_btn)
-    console.log(delete_btn)
+    // console.log(heart_btn)
+    // console.log(delete_btn)
     identity_div.innerHTML = `
-        <a href="signin" class="btn btn-primary" role="button">Log in</a>`;
+        <a href="signin" class="slide-btn" role="button">Log in</a>`;
+
+    document.getElementById("banner").style.display = 'block';
     // if (document.getElementById("comment_rating_div")) {
     //   document.getElementById("comment_rating_div").classList.add("d-none");
     // }
