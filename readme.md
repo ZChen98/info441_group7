@@ -23,12 +23,10 @@ As developers, we are a part of the UW community, and we wish to improve the col
 
 | Priority      | User | Description      | Technical Implementation      |
 | ----------- | ----------- | ----------- | ----------- |
-| P0      | As a user       | I want to know what the residents think about each dorm so that I can have an idea of what dorm is the best option for me       | Implementing a search bar for users to search for their interests ||
-| P0   | As a resident        |I want to share my opinions about dorms I have lived in to help people choose dorms          | Creating a feature that allows users to view ratings from the other users for buildings ||
-|P0 | As a UW resident | I want to share my opinions about dorms I have lived in to help people choose dorms| Creating a feature that allows users to rate buildings ||
+| P0      | As a user       | I want to know what the residents think about each dorm so that I can have an idea of what dorm is the best option for me       | Implementing a search bar for users to search for their interests |
 |P0 | As a user | I want to share my opinions about dorms I have lived in to help other people choose dorms | Creating a feature that allows users to rate buildings ||
 |P0 | As a user | I want to like/unlike with others' comments | Creating a feature that allows users to like or unlike with a comment ||
-|P0 | As a user | I want to delete my ratings | Creating Delete buttons||
+|P0 | As a user | I want to delete my comments | Creating Delete buttons||
 |P1 | As a user | I would like to see similar dorm recommendations under the dorm I am viewing | Giving the users other dorms to view based on the locaiton of the dorm the user is viewing ||
 |P2| As a user | I want to be able to report a rating if it is not appropriate | Creating a feature that allows uers to report ||
 |P2 | As a user | I want to be able to add rating to my collection/favorite | Creating a feature that allows users to add to their collection/favorite folder||
