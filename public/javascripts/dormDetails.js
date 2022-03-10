@@ -168,8 +168,7 @@ async function postRatingComment(buildingID) {
     if (responesJSON.status == "error") {
       console.log("error:" + responesJSON.error);
     } else {
-      console.log("sth")
-      // loadDormInfo();
+      loadDormInfo();
     }
     return responesJSON;
   } catch (error) {
