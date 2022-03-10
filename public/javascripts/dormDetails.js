@@ -6,6 +6,7 @@ async function init() {
 async function loadDormInfo() {
   const urlParams = new URLSearchParams(window.location.search);
   const dormname = urlParams.get("dorm");
+  console.log(dormname)
 
   let dormInfoJson;
   try {
@@ -124,37 +125,7 @@ async function loadDormInfo() {
       </div>
       </section>
 
-      <footer class="footer-copyright">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-7">
-						<div class="foot-copyright pull-left">
-							<p>
-								&copy; This website uses templates from
-							 	<a href="https://www.themesine.com">ThemeSINE</a>
-							</p>
-						</div><!--/.foot-copyright-->
-					</div><!--/.col-->
-					<div class="col-sm-5">
-						<div class="foot-menu pull-right">	  
-							<p>Info 441 team 7: </p>
-							<ul>
-								<li ></a></li>
-								<li >Justin Chen</li>
-								<li >Doris Yang</li>
-								<li >Lee Shi</li>
-								<li>Zhengyang Wang</li>
-							</ul>
-						</div><!-- /.foot-menu-->
-					</div><!--/.col-->
-				</div><!--/.row-->
-				<div id="scroll-Top">
-					<i class="fa fa-angle-double-up return-to-top" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
-				</div><!--/.scroll-Top-->
-			</div><!-- /.container-->
-
-		</footer><!-- /.footer-copyright-->
-		<!-- footer-copyright end -->
+      
       
       `; 
     
@@ -237,7 +208,8 @@ async function postRatingComment(buildingID) {
     if (responesJSON.status == "error") {
       console.log("error:" + responesJSON.error);
     } else {
-      loadDormInfo();
+      console.log("sth")
+      // loadDormInfo();
     }
     return responesJSON;
   } catch (error) {

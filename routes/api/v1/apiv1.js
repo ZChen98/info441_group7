@@ -96,7 +96,7 @@ router.post("/comments", async function (req, res, next) {
       await building.save();
       res.json({ status: "success" });
     } else {
-      res.send({ status: "error", error: "not logged in" });
+      res.json({ status: "error", error: "not logged in" });
     }
   } catch (error) {
     res.json({ error: error });
