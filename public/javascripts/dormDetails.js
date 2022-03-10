@@ -65,7 +65,7 @@ async function loadDormInfo() {
         }
                         </span>
                         <span class="delete_btn_span ${
-                          myIdentity ? "" : "d-none"
+                          myIdentity == dormInfo.username ? "" : "d-none"
                         }"><button onclick='deletePost("${dormInfo._id}")'
                         }">Delete</button></span>
                         <span title="${dormInfo.likes}"> ${
@@ -149,7 +149,7 @@ async function loadDormInfo() {
 								<li >Justin Chen</li>
 								<li >Doris Yang</li>
 								<li >Lee Shi</li>
-								<li>Zhengyang Wang</li>
+								<li >Jerry Wang</li>
 							</ul>
 						</div><!-- /.foot-menu-->
 					</div><!--/.col-->

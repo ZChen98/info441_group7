@@ -35,7 +35,14 @@ async function renderDorm(dormJson) {
 async function searchDorm() {
     let dormName = document.getElementsByName("txt")[0].value;
     dormName = dormName.trim()
-    console.log(dormName)
+    //to lower case
+    let response_new = await fetch(`api/v1/dorms`);
+    let dormJson = await response_new.json();
+    dormJson.forEach(element => {
+        if (dormName.toLowerCase() == element.dormName.toLowerCase()) {
+            dormName = element.dormName
+        }
+    });
     if(dormName !== null) {
         try{
             let response = await fetch(`api/v1/filterDorms?dormName=${dormName}`)

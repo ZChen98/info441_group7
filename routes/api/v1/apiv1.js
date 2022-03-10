@@ -228,7 +228,7 @@ router.get("/dormInfo", async function (req, res, next) {
               // likes: dormLikes,
               comments: comments,
               htmlPreview: htmlReturn,
-              dormId: dormId,
+              dormId: dormId
             };
           })
           .catch((err) => {
