@@ -2,6 +2,8 @@
 
 Created by: Justin Chen, Lee Shi, Jerry Wang and Doris Yang
 
+Project link: [RateMyUW](https://project.jcyyds.me)
+
 ## Project Description
 
 Our target audience is UW students. Everyone in the UW community can benefit from additional resources about UW life. Additional audiences include staff and faculty members and they are also encouraged to use this application to share their opinions about everything on campus.
