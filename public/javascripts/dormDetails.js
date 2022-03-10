@@ -180,18 +180,6 @@ function getCommentHTML(commentJSON) {
     .join(" ");
 }
 
-async function refreshComments(buildingID) {
-  let commentsElement = document.getElementById(`comments-${buildingID}`);
-  commentsElement.innerHTML = "loading...";
-  try {
-    let response = await fetch(`api/v1/comments?buildingID=${buildingID}`);
-    let commentsJSON = await response.json();
-    commentsElement.innerHTML = getCommentHTML(commentsJSON);
-  } catch (error) {
-    commentsElement.innerText = "error" + error;
-  }
-}
-
 async function postRatingComment(buildingID) {
   console.log(buildingID);
   let newComment = document.getElementById(`commentInput`).value;
