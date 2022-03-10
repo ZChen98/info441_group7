@@ -6,7 +6,7 @@ router.get("/", function (req, res, next) {
   res.redirect("/");
 });
 
-// GET dorm info
+// GET all dorm info
 router.get("/dorms", async function (req, res, next) {
   try {
     let allDorms = await req.db.Building.find();
