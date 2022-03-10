@@ -43,8 +43,6 @@ router.get("/dorms", async function (req, res, next) {
 
 // html component contains dorm img and dorm name
 async function viewDorm(dorm, avgDormRating) {
-  // console.log(dorm)
-  // let dorm = await req.db.Building.findById(dormId);
   try{
     let dormName = dorm.buildingname;
     let dormImg = "buildingImgs/" + dormName + ".jpeg";
@@ -56,7 +54,6 @@ async function viewDorm(dorm, avgDormRating) {
               <p class= "team-meta">Rating: ${avgDormRating}</p>
           </div>
         </div>`
-    // console.log(htmlReturn)
     return htmlReturn;
   }catch(error){
     console.log(error)
@@ -166,11 +163,9 @@ router.delete("/comments", async function (req, res, next) {
     let session = req.session;
     if (session.isAuthenticated) {
       let username = session.account.username;
-      // let username = "...";
       let commentID = req.body.commentID;
       let comment = await req.db.Comment.findById(commentID);
       if (username == comment.username) {
-        // if (username == "...") {
         await req.db.Comment.deleteOne({ _id: commentID });
         res.json({ status: "success" });
       } else {
@@ -212,18 +207,14 @@ router.get("/filterDorms", async function (req, res, next) {
 });
 
 //GET get info related to a specific dorm: dormName, htmlPreview, a list of comments [comments]
-//
 router.get("/dormInfo", async function (req, res, next) {
   try {
     let dormname = req.query.dormname;
     let dorm = await req.db.Building.find({ buildingname: dormname });
     let comments = await req.db.Comment.find({ building: dorm[0]._id });
-    // console.log(comments)
-    // console.log(dorm)
     let results = [];
     dorm.forEach((dorm) => {
       let dormName = dorm.buildingname;
-      // let dormLikes = dorm.likes;
       let dormId = dorm._id;
       let dormRating = dorm.rating;
       let average = (array) => array.reduce((a, b) => a + b) / array.length;
@@ -237,7 +228,7 @@ router.get("/dormInfo", async function (req, res, next) {
               // likes: dormLikes,
               comments: comments,
               htmlPreview: htmlReturn,
-              dormId: dormId,
+              dormId: dormId
             };
           })
           .catch((err) => {
@@ -245,7 +236,6 @@ router.get("/dormInfo", async function (req, res, next) {
           })
       );
     });
-    // console.log(comments[0])
     Promise.all(results).then((result) => {
       res.send(result);
     });

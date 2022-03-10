@@ -34,12 +34,6 @@ async function loadIdentity() {
         </div>`;
     document.getElementById("identity_error_span").innerText =
       identityInfo.error;
-    // if (document.getElementById("comment_rating_div")) {
-    //   document.getElementById("comment_rating_div").classList.add("d-none");
-    // }
-    // Array.from(document.getElementsByClassName("new-comment-box")).forEach(
-    //   (e) => e.classList.add("d-none")
-    // );
     Array.from(document.getElementsByClassName("heart-button-span")).forEach(
       (e) => e.classList.add("d-none")
     );
@@ -52,13 +46,7 @@ async function loadIdentity() {
         <p style="color: white"> ${identityInfo.userInfo.username} </p>
         <a href="signout" class="btn btn-danger" role="button">Log out</a>`;
 
-    document.getElementById("banner").style.display = 'none';
-    // if (document.getElementById("comment_rating_div")) {
-    //   document.getElementById("comment_rating_div").classList.remove("d-none");
-    // }
-    // Array.from(document.getElementsByClassName("new-comment-box")).forEach(
-    //   (e) => e.classList.remove("d-none")
-    // );
+    document.getElementById("banner").style.display = "none";
     Array.from(document.getElementsByClassName("heart-button-span")).forEach(
       (e) => e.classList.remove("d-none")
     );
@@ -68,17 +56,10 @@ async function loadIdentity() {
   } else {
     //loggedout
     myIdentity = undefined;
-    let heart_btn = document.getElementsByClassName("heart-button-span");
-    let delete_btn = document.getElementsByClassName("delete_btn_span");
-    // console.log(heart_btn)
-    // console.log(delete_btn)
     identity_div.innerHTML = `
         <a href="signin" class="slide-btn" role="button">Log in</a>`;
 
-    document.getElementById("banner").style.display = 'block';
-    // if (document.getElementById("comment_rating_div")) {
-    //   document.getElementById("comment_rating_div").classList.add("d-none");
-    // }
+    document.getElementById("banner").style.display = "block";
     Array.from(document.getElementsByClassName("heart-button-span")).forEach(
       (e) => e.classList.remove("d-none")
     );

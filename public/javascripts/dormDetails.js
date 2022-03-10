@@ -32,7 +32,7 @@ async function loadDormInfo() {
             <br>
             
           </div>
-    `
+    `;
     dormsHtml += `${dormInfoJson[0].htmlPreview}
           <br>
           <div class="section-header text-center">  
@@ -41,8 +41,7 @@ async function loadDormInfo() {
             </h2>
           </div>
           <br>
-          `
-          
+          `;
 
     dormsHtml += dormInfoJson[0].comments
       .map((dormInfo) => {
@@ -58,20 +57,27 @@ async function loadDormInfo() {
                         </a>
                       </b>
                       <div class="reply">
-                        <span class="heart-button-span ${myIdentity ? "" : "d-none"}">${
-                          dormInfo.likes && dormInfo.likes.includes(myIdentity)
-                            ? `<button class="heart_button" onclick='unlikeComment("${dormInfo._id}")'>&#x2665;</button>`
-                            : `<button class="heart_button" onclick='likeComment("${dormInfo._id}")'>&#x2661;</button>`
-                        }
+                        <span class="heart-button-span ${
+                          myIdentity ? "" : "d-none"
+                        }">${
+          dormInfo.likes && dormInfo.likes.includes(myIdentity)
+            ? `<button class="heart_button" onclick='unlikeComment("${dormInfo._id}")'>&#x2665;</button>`
+            : `<button class="heart_button" onclick='likeComment("${dormInfo._id}")'>&#x2661;</button>`
+        }
                         </span>
-                        <span class="delete_btn_span ${myIdentity ? "" : "d-none"}"><button onclick='deletePost("${dormInfo._id}")'
+                        <span class="delete_btn_span ${
+                          myIdentity == dormInfo.username ? "" : "d-none"
+                        }"><button onclick='deletePost("${dormInfo._id}")'
                         }">Delete</button></span>
                         <span title="${dormInfo.likes}"> ${
-                          dormInfo.likes ? `${dormInfo.likes.length}` : 0} likes 
+          dormInfo.likes ? `${dormInfo.likes.length}` : 0
+        } likes 
                         </span> &nbsp; &nbsp;
                       </div>
                       <p>
-                      <div id="comments-${dormInfoJson[0].dormId}">${dormInfo.comment}</div>    
+                      <div id="comments-${dormInfoJson[0].dormId}">${
+          dormInfo.comment
+        }</div>    
                       </p>
                     </div> 
                   </div> 
@@ -86,7 +92,6 @@ async function loadDormInfo() {
     dormsHtml += `
     <div class="contact-form blog-single-form ${myIdentity ? "" : "d-none"}" >
         <h3>Post Your Rating and Comment</h3>
-        <form>
           <div class="row">
             <div class="col-sm-6 col-xs-12">
               <div class="form-group">
@@ -115,28 +120,22 @@ async function loadDormInfo() {
           <div class="row">
             <div class="col-sm-12">
               <div class="single-contact-btn">
-                <button onclick='postRatingComment("${dormInfoJson[0].dormId}")' class="contact-btn" href="#" role="button">Post Rating and Comment</button>
+                <button onclick='postRatingComment("${
+                  dormInfoJson[0].dormId
+                }")' class="contact-btn" href="#" role="button">Post Rating and Comment</button>
               </div>
             </div>
           </div>    
-        </form>
       </div>
       </div>
       </div>
       </section>
+      
+      `;
 
-      
-      
-      `; 
-    
     document.getElementById("comments_box").innerHTML = dormsHtml;
   }
 }
-// <button onclick='refreshComments("${dormInfoJson[0].dormId}")'>
-//   refresh comments
-// </button>;
-//  class="${
-//           dormInfo.username == myIdentity ? "" : "d-none"
 
 function getCommentHTML(commentJSON) {
   return commentJSON
@@ -149,50 +148,11 @@ function getCommentHTML(commentJSON) {
     })
     .join(" ");
 }
-// - <a href="/dormDetials.html?dorm=${encodeURIComponent(
-//               commentInfo.dorm
-//             )}">
-
-// async function toggleComments(buildingID) {
-//   let element = document.getElementById(`comments-box-${buildingID}`);
-// //   if (!element.classList.contains("d-none")) {
-// //     element.classList.add("d-none");
-// //   } else {
-//     element.classList.remove("d-none");
-//     let commentsElement = document.getElementById(`comments-${buildingID}`);
-//     if (commentsElement.innerHTML == "") {
-//       // load comments if not yet loaded
-//       commentsElement.innerHTML = "loading...";
-//       try {
-//         let response = await fetch(
-//           `api/v1/comments?buildingID=${buildingID}`
-//         );
-//         let commentsJSON = await response.json();
-//         commentsElement.innerHTML = getCommentHTML(commentsJSON);
-//       } catch (error) {
-//         commentsElement.innerText = "error" + error;
-//       }
-//     }
-// }
-
-async function refreshComments(buildingID) {
-  let commentsElement = document.getElementById(`comments-${buildingID}`);
-  commentsElement.innerHTML = "loading...";
-  try {
-    let response = await fetch(`api/v1/comments?buildingID=${buildingID}`);
-    let commentsJSON = await response.json();
-    commentsElement.innerHTML = getCommentHTML(commentsJSON);
-  } catch (error) {
-    commentsElement.innerText = "error" + error;
-  }
-}
 
 async function postRatingComment(buildingID) {
   console.log(buildingID);
   let newComment = document.getElementById(`commentInput`).value;
   let newRating = parseInt(document.getElementById(`ratingnum`).value);
-//   console.log(newComment);
-//   console.log(typeof newRating);
 
   try {
     let response = await fetch(`api/v1/comments`, {
@@ -262,7 +222,12 @@ async function deletePost(commentID) {
       body: JSON.stringify({ commentID: commentID }),
       headers: { "Content-Type": "application/json" },
     });
-    loadDormInfo();
+    let responesJSON = await response.json();
+    if (responesJSON.status == "error") {
+      console.log("error:" + responesJSON.error);
+    } else {
+      loadDormInfo();
+    }
   } catch (error) {
     console.log("error:" + error);
   }
